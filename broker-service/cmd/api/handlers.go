@@ -1,8 +1,6 @@
 package main
 
 import (
-	"encoding/json"
-	"log"
 	"net/http"
 )
 
@@ -18,10 +16,7 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 		Message: "Hit the broker",
 	}
 
-	out, _ := json.MarshalIndent(payload, "", "\t")
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusAccepted)
-	w.Write(out)
+	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
 func (app *Config) GetBroker(w http.ResponseWriter, r *http.Request) {
@@ -30,11 +25,6 @@ func (app *Config) GetBroker(w http.ResponseWriter, r *http.Request) {
 		Message: "Hitted get method ;)",
 	}
 
-	log.Printf(r.Method)
-
-	out, _ := json.MarshalIndent(payload, "", "\t")
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusAccepted)
-	w.Write(out)
+	_ = app.writeJSON(w, http.StatusOK, payload)
 
 }
