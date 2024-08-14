@@ -34,13 +34,17 @@ func render(w http.ResponseWriter, t string) {
 		templateSlice = append(templateSlice, x)
 	}
 
+	fmt.Println(templateSlice)
+
 	tmpl, err := template.ParseFiles(templateSlice...)
 	if err != nil {
+		fmt.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	if err := tmpl.Execute(w, nil); err != nil {
+		fmt.Println(err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
