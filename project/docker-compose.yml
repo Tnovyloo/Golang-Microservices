@@ -14,6 +14,7 @@ services:
       replicas: 1
 
   authentication-service:
+    container_name: 'authentication-service'
     build:
       context: ./../authentication-service
       dockerfile: ./../authentication-service/authentication-service.dockerfile
