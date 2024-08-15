@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"net/http"
 )
 
@@ -29,6 +30,9 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 		Message: "Hit the broker",
 	}
 
+	fmt.Println(r)
+	fmt.Println("HElllo?")
+
 	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
@@ -37,6 +41,8 @@ func (app *Config) GetBroker(w http.ResponseWriter, r *http.Request) {
 		Error:   true,
 		Message: "Hitted get method ;)",
 	}
+
+	fmt.Println(r)
 
 	_ = app.writeJSON(w, http.StatusOK, payload)
 
@@ -58,6 +64,17 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 	default:
 		app.errorJSON(w, errors.New("Unknown auction"))
 	}
+}
+
+func (app *Config) HandleGetSubmission(w http.ResponseWriter, r *http.Request) {
+	payload := jsonResponse{
+		Error:   false,
+		Message: "Hitted get method on handle submission",
+	}
+
+	fmt.Println(payload)
+
+	_ = app.writeJSON(w, http.StatusOK, payload)
 }
 
 func (app *Config) authenticate(w http.ResponseWriter, a AuthPayload) {

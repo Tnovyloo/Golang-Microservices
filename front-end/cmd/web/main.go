@@ -34,7 +34,7 @@ func render(w http.ResponseWriter, t string) {
 		templateSlice = append(templateSlice, x)
 	}
 
-	fmt.Println(templateSlice)
+	// fmt.Println(templateSlice)
 
 	tmpl, err := template.ParseFiles(templateSlice...)
 	if err != nil {
