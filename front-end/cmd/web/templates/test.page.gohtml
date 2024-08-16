@@ -77,13 +77,13 @@
 
             const body = {
                 method: 'POST',
-                body: payload,
+                body: JSON.stringify(payload),
                 headers: headers,
             }
             console.log(body)
 
 
-            fetch("http:\/\/localhost:8081/handle", body)
+            fetch("http:\/\/localhost:8080/handle", body)
             .then((response) => {
                 response.json()
                 console.log(response)

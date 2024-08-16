@@ -60,6 +60,7 @@ func (app *Config) HandleSubmission(w http.ResponseWriter, r *http.Request) {
 
 	switch requestPayload.Action {
 	case "auth":
+		fmt.Println("Auth case")
 		app.authenticate(w, requestPayload.Auth)
 	default:
 		app.errorJSON(w, errors.New("Unknown auction"))
