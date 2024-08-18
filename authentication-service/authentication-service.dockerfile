@@ -8,9 +8,15 @@ COPY . /app
 # Working directory
 WORKDIR /app
 
-RUN CGO_ENABLED=0 go build -o authApp ./cmd/api
+RUN go install github.com/air-verse/air@latest
 
-# Just making sure that program has executable permissions 
-RUN chmod +x /app/authApp
+COPY go.mod go.sum ./
+RUN go mod download
+CMD ["air", "-c", ".air.toml"]
 
-CMD ["/app/authApp"]
+# RUN CGO_ENABLED=0 go build -o authApp ./cmd/api
+
+# # Just making sure that program has executable permissions 
+# RUN chmod +x /app/authApp
+
+# CMD ["/app/authApp"]
