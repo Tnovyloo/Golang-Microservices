@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"time"
 )
 
 func main() {
@@ -12,8 +13,9 @@ func main() {
 		render(w, "test.page.gohtml")
 	})
 
-	fmt.Println("Starting front end service on port 80")
-	err := http.ListenAndServe(":80", nil)
+	fmt.Println("Starting front end service on port 4443")
+
+	err := http.ListenAndServe(":4443", nil)
 	if err != nil {
 		log.Panic(err)
 	}
@@ -34,7 +36,8 @@ func render(w http.ResponseWriter, t string) {
 		templateSlice = append(templateSlice, x)
 	}
 
-	// fmt.Println(templateSlice)
+	// fmt.Println("Not working xd")
+	fmt.Println(time.Now(), "Rendering: ", t)
 
 	tmpl, err := template.ParseFiles(templateSlice...)
 	if err != nil {
