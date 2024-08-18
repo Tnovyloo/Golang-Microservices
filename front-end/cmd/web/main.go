@@ -36,7 +36,6 @@ func render(w http.ResponseWriter, t string) {
 		templateSlice = append(templateSlice, x)
 	}
 
-	// fmt.Println("Not working xd")
 	fmt.Println(time.Now(), "Rendering: ", t)
 
 	tmpl, err := template.ParseFiles(templateSlice...)
