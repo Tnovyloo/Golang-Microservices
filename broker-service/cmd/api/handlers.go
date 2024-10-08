@@ -31,7 +31,6 @@ func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(r)
-	fmt.Println("HElllo?")
 
 	_ = app.writeJSON(w, http.StatusOK, payload)
 }
@@ -99,6 +98,7 @@ func (app *Config) authenticate(w http.ResponseWriter, a AuthPayload) {
 	}
 	defer response.Body.Close()
 
+	fmt.Println(response.StatusCode, "XDDDDDDDDD", response.ContentLength, response.Body)
 	// Make sure we get back the correct status code
 	if response.StatusCode == http.StatusUnauthorized {
 		app.errorJSON(w, errors.New("Invalid credentials"))

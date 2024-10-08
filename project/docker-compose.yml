@@ -8,7 +8,7 @@ services:
       dockerfile: ./../front-end/front-end-service.dockerfile
     restart: always
     ports:
-      - "4443:4443"
+      - "80:4443"
     deploy:
       mode: replicated
       replicas: 1
@@ -44,7 +44,6 @@ services:
     volumes:
       - ./../authentication-service/:/app
 
-
   postgres:
     image: 'postgres:14.0'
     ports:
@@ -55,7 +54,24 @@ services:
       replicas: 1
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_PASSWORD: password
       POSTGRES_DB: users
     volumes:
       - ./db-data/postgres/:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: dpage/pgadmin4:6.11
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Default email for login
+      PGADMIN_DEFAULT_PASSWORD: admin  # Default password for login
+      GUNICORN_ACCESS_LOGFILE: '/dev/null'
+      PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED: 'False'
+    ports:
+      - "4444:80"  # Expose pgAdmin on port 8080
+    depends_on:
+      - postgres  # Ensure pgAdmin starts after PostgreSQL
+    restart: always
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+    logging:
+      driver: none

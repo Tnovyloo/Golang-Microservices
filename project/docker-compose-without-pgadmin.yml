@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+
+  front-end-service:
+    build:
+      context: ./../front-end
+      dockerfile: ./../front-end/front-end-service.dockerfile
+    restart: always
+    ports:
+      - "80:4443"
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./../front-end/:/app
+
+  broker-service:
+    build:
+      context: ./../broker-service
+      dockerfile: ./../broker-service/broker-service.dockerfile
+    restart: always
+    ports:
+      - "8080:8080"
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./../broker-service/:/app
+
+  authentication-service:
+    container_name: 'authentication-service'
+    build:
+      context: ./../authentication-service
+      dockerfile: ./../authentication-service/authentication-service.dockerfile
+    restart: always
+    ports:
+      - "8081:80"
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      DSN: "host=postgres port=5432 user=postgres password=password dbname=users sslmode=disable timezone=UTC connect_timeout=5"
+    volumes:
+      - ./../authentication-service/:/app
+
+  postgres:
+    image: 'postgres:14.0'
+    ports:
+      - "5432:5432"
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: users
+    volumes:
+      - ./db-data/postgres/:/var/lib/postgresql/data/
+
+  # pgadmin:
+  #   image: dpage/pgadmin4:6.11
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Default email for login
+  #     PGADMIN_DEFAULT_PASSWORD: admin  # Default password for login
+  #   logging:
+  #     driver: none
+  #   ports:
+  #     - "4444:80"  # Expose pgAdmin on port 8080
+  #   depends_on:
+  #     - postgres  # Ensure pgAdmin starts after PostgreSQL
+  #   restart: always
+  #   volumes:
+  #     - ./pgadmin-data:/var/lib/pgadmin
