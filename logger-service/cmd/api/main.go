@@ -30,9 +30,9 @@ func main() {
 	}
 
 	client = mongoClient
-	
+
 	// Create a context in order to disconnect
-	ctx, cancel := context.WithTimeout((context.Background(), 15*time.Second))
+	ctx, cancel := context.WithTimeout((context.Background()), 15*time.Second)
 	defer cancel()
 
 	// Close connection
@@ -40,7 +40,7 @@ func main() {
 		if err = client.Disconnect(ctx); err != nil {
 			panic(err)
 		}
-	} ()
+	}()
 
 	// log.Printf("Starting logger service on port %s\n", webPort)
 
