@@ -28,6 +28,19 @@ services:
     volumes:
       - ./../broker-service/:/app
 
+  logger-service:
+    build:
+      context: ./../logger-service
+      dockerfile: ./../logger-service/logger-service.dockerfile
+    restart: always
+    ports:
+      - "8082:80"
+    deploy:
+      mode: replicated
+      replicas: 1
+    volumes:
+      - ./../logger-service/:/app
+
   authentication-service:
     container_name: 'authentication-service'
     build:
@@ -59,19 +72,19 @@ services:
     volumes:
       - ./db-data/postgres/:/var/lib/postgresql/data/
 
-  pgadmin:
-    image: dpage/pgadmin4:6.11
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Default email for login
-      PGADMIN_DEFAULT_PASSWORD: admin  # Default password for login
-      GUNICORN_ACCESS_LOGFILE: '/dev/null'
-      PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED: 'False'
-    ports:
-      - "4444:80"  # Expose pgAdmin on port 8080
-    depends_on:
-      - postgres  # Ensure pgAdmin starts after PostgreSQL
-    restart: always
-    volumes:
-      - ./pgadmin-data:/var/lib/pgadmin
-    logging:
-      driver: none
+  # pgadmin:
+  #   image: dpage/pgadmin4:6.11
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com  # Default email for login
+  #     PGADMIN_DEFAULT_PASSWORD: admin  # Default password for login
+  #     GUNICORN_ACCESS_LOGFILE: '/dev/null'
+  #     PGADMIN_CONFIG_UPGRADE_CHECK_ENABLED: 'False'
+  #   ports:
+  #     - "4444:80"  # Expose pgAdmin on port 8080
+  #   depends_on:
+  #     - postgres  # Ensure pgAdmin starts after PostgreSQL
+  #   restart: always
+  #   volumes:
+  #     - ./pgadmin-data:/var/lib/pgadmin
+  #   logging:
+  #     driver: none

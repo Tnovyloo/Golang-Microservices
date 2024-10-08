@@ -5,3 +5,9 @@ db-data/postgres
 project/db-data
 
 pgadmin-data
+
+./pgadmin-data
+
+/pgadmin-data
+
+pgadmin-data/pgadmin4.db
